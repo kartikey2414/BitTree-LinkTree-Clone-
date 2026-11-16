@@ -1,11 +1,11 @@
 "use client";
-import React from "react";
+import React, { Suspense } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-const Generate = () => {
+const GenerateComponent = () => {
   const searchParams = useSearchParams();
   const [handle, sethandle] = useState(searchParams.get("handle"));
   const [links, setLinks] = useState([{ link: "", linktext: "" }]);
@@ -93,7 +93,6 @@ const Generate = () => {
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 w-full py-16">
-        {/* Left Column: Form Inputs Section */}
         <div className="col1 flex flex-col justify-center items-center w-full p-6 md:p-12">
           <div className="inputs flex flex-col gap-5 my-8 text-gray-900 w-full max-w-md">
             <h1 className="font-bold text-3xl md:text-4xl">Create your Bittree</h1>
@@ -199,7 +198,6 @@ const Generate = () => {
           </div>
         </div>
 
-        {/* Right Column: Illustration Image Section */}
         <div className="col2 hidden md:flex w-full h-screen justify-center items-center overflow-hidden sticky top-0">
           <img
             src="/generate.png"
@@ -212,4 +210,10 @@ const Generate = () => {
   );
 };
 
-export default Generate;
+export default function Generate() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[#E9C0E9] flex items-center justify-center font-bold text-xl">Loading...</div>}>
+      <GenerateComponent />
+    </Suspense>
+  );
+}
